@@ -38,8 +38,8 @@ func IOC(dir, t, nr, size uintptr) uintptr {
 	return (dir << iocDirShift) | (t << iocTypeShift) | (nr << iocNrShift) | (size << iocSizeShift)
 }
 
-func Ioctl(fd int, request, value uintptr) error {
-	_, _, e := syscall.Syscall(syscall.SYS_IOCTL, uintptr(fd), request, value)
+func Ioctl(fd uintptr, request, value uintptr) error {
+	_, _, e := syscall.Syscall(syscall.SYS_IOCTL, fd, request, value)
 	if e == syscall.Errno(0) {
 		return nil
 	}
@@ -47,8 +47,8 @@ func Ioctl(fd int, request, value uintptr) error {
 }
 
 
-func IoctlX(fd int, request, value uintptr) (int64, error) {
-	x, _, e := syscall.Syscall(syscall.SYS_IOCTL, uintptr(fd), request, value)
+func IoctlX(fd uintptr, request, value uintptr) (int64, error) {
+	x, _, e := syscall.Syscall(syscall.SYS_IOCTL, fd, request, value)
 	if e == syscall.Errno(0) {
 		return int64(x), nil
 	}
